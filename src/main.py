@@ -33,8 +33,8 @@ def getGameStats():
     if response.status_code == 200:
         data = response.json()
         # If I want the actual JSON file to check through
-        #with open(FILENAME, "w", encoding="utf-8") as outfile:
-            #json.dump(data, outfile, indent=4, sort_keys=True, ensure_ascii=False)
+        with open(FILENAME, "w", encoding="utf-8") as outfile:
+            json.dump(data, outfile, indent=4, sort_keys=True, ensure_ascii=False)
         games = data["scoreboard"]["games"]
         for game in games:
             awayCity = game["awayTeam"]["teamCity"]
@@ -54,6 +54,9 @@ def getGameStats():
             elif homeScore > awayScore:
                 left_out = f"{bcolors.FAIL}{left_padded}{bcolors.ENDC}"
                 right_out = f"{bcolors.OKGREEN}{right_padded}{bcolors.ENDC}"
+            else:
+                left_out = left_padded
+                right_out = right_padded
 
             print(f"{left_out} {awayScore:>3} - {homeScore:<10} {right_out}")
 
