@@ -2,11 +2,11 @@
     "meta": {
         "code": 200,
         "request": "https://nba-prod-us-east-1-mediaops-stats.s3.amazonaws.com/NBA/liveData/scoreboard/todaysScoreboard_00.json",
-        "time": "2025-11-13 03:22:32.2232",
+        "time": "2025-11-14 04:28:08.288",
         "version": 1
     },
     "scoreboard": {
-        "gameDate": "2025-11-13",
+        "gameDate": "2025-11-14",
         "games": [
             {
                 "awayTeam": {
@@ -36,18 +36,18 @@
                     ],
                     "score": 0,
                     "seed": null,
-                    "teamCity": "Toronto",
-                    "teamId": 1610612761,
-                    "teamName": "Raptors",
-                    "teamTricode": "TOR",
+                    "teamCity": "Miami",
+                    "teamId": 1610612748,
+                    "teamName": "Heat",
+                    "teamTricode": "MIA",
                     "timeoutsRemaining": 0,
-                    "wins": 6
+                    "wins": 7
                 },
                 "gameClock": "",
-                "gameCode": "20251113/TORCLE",
-                "gameEt": "2025-11-13T19:00:00Z",
-                "gameId": "0022500225",
-                "gameLabel": "",
+                "gameCode": "20251114/MIANYK",
+                "gameEt": "2025-11-14T19:00:00Z",
+                "gameId": "0022500039",
+                "gameLabel": "Emirates NBA Cup",
                 "gameLeaders": {
                     "awayLeaders": {
                         "assists": 0,
@@ -58,7 +58,7 @@
                         "points": 0,
                         "position": "",
                         "rebounds": 0,
-                        "teamTricode": "TOR"
+                        "teamTricode": "MIA"
                     },
                     "homeLeaders": {
                         "assists": 0,
@@ -69,14 +69,14 @@
                         "points": 0,
                         "position": "",
                         "rebounds": 0,
-                        "teamTricode": "CLE"
+                        "teamTricode": "NYK"
                     }
                 },
                 "gameStatus": 1,
                 "gameStatusText": "7:00 pm ET",
-                "gameSubLabel": "",
-                "gameSubtype": "",
-                "gameTimeUTC": "2025-11-14T00:00:00Z",
+                "gameSubLabel": "East Group C",
+                "gameSubtype": "in-season",
+                "gameTimeUTC": "2025-11-15T00:00:00Z",
                 "homeTeam": {
                     "inBonus": null,
                     "losses": 4,
@@ -104,12 +104,12 @@
                     ],
                     "score": 0,
                     "seed": null,
-                    "teamCity": "Cleveland",
-                    "teamId": 1610612739,
-                    "teamName": "Cavaliers",
-                    "teamTricode": "CLE",
+                    "teamCity": "New York",
+                    "teamId": 1610612752,
+                    "teamName": "Knicks",
+                    "teamTricode": "NYK",
                     "timeoutsRemaining": 0,
-                    "wins": 8
+                    "wins": 7
                 },
                 "ifNecessary": false,
                 "isNeutral": false,
@@ -153,18 +153,18 @@
                     ],
                     "score": 0,
                     "seed": null,
-                    "teamCity": "Indiana",
-                    "teamId": 1610612754,
-                    "teamName": "Pacers",
-                    "teamTricode": "IND",
+                    "teamCity": "Brooklyn",
+                    "teamId": 1610612751,
+                    "teamName": "Nets",
+                    "teamTricode": "BKN",
                     "timeoutsRemaining": 0,
                     "wins": 1
                 },
                 "gameClock": "",
-                "gameCode": "20251113/INDPHX",
-                "gameEt": "2025-11-13T21:00:00Z",
-                "gameId": "0022500226",
-                "gameLabel": "",
+                "gameCode": "20251114/BKNORL",
+                "gameEt": "2025-11-14T19:00:00Z",
+                "gameId": "0022500040",
+                "gameLabel": "Emirates NBA Cup",
                 "gameLeaders": {
                     "awayLeaders": {
                         "assists": 0,
@@ -175,7 +175,7 @@
                         "points": 0,
                         "position": "",
                         "rebounds": 0,
-                        "teamTricode": "IND"
+                        "teamTricode": "BKN"
                     },
                     "homeLeaders": {
                         "assists": 0,
@@ -186,17 +186,17 @@
                         "points": 0,
                         "position": "",
                         "rebounds": 0,
-                        "teamTricode": "PHX"
+                        "teamTricode": "ORL"
                     }
                 },
                 "gameStatus": 1,
-                "gameStatusText": "9:00 pm ET",
-                "gameSubLabel": "",
-                "gameSubtype": "",
-                "gameTimeUTC": "2025-11-14T02:00:00Z",
+                "gameStatusText": "7:00 pm ET",
+                "gameSubLabel": "East Group B",
+                "gameSubtype": "in-season",
+                "gameTimeUTC": "2025-11-15T00:00:00Z",
                 "homeTeam": {
                     "inBonus": null,
-                    "losses": 5,
+                    "losses": 6,
                     "periods": [
                         {
                             "period": 1,
@@ -221,12 +221,129 @@
                     ],
                     "score": 0,
                     "seed": null,
-                    "teamCity": "Phoenix",
-                    "teamId": 1610612756,
-                    "teamName": "Suns",
-                    "teamTricode": "PHX",
+                    "teamCity": "Orlando",
+                    "teamId": 1610612753,
+                    "teamName": "Magic",
+                    "teamTricode": "ORL",
+                    "timeoutsRemaining": 0,
+                    "wins": 6
+                },
+                "ifNecessary": false,
+                "isNeutral": false,
+                "pbOdds": {
+                    "odds": 0.0,
+                    "suspended": 0,
+                    "team": null
+                },
+                "period": 0,
+                "poRoundDesc": "",
+                "regulationPeriods": 4,
+                "seriesConference": "",
+                "seriesGameNumber": "",
+                "seriesText": ""
+            },
+            {
+                "awayTeam": {
+                    "inBonus": null,
+                    "losses": 4,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "Philadelphia",
+                    "teamId": 1610612755,
+                    "teamName": "76ers",
+                    "teamTricode": "PHI",
                     "timeoutsRemaining": 0,
                     "wins": 7
+                },
+                "gameClock": "",
+                "gameCode": "20251114/PHIDET",
+                "gameEt": "2025-11-14T19:30:00Z",
+                "gameId": "0022500041",
+                "gameLabel": "Emirates NBA Cup",
+                "gameLeaders": {
+                    "awayLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "PHI"
+                    },
+                    "homeLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "DET"
+                    }
+                },
+                "gameStatus": 1,
+                "gameStatusText": "7:30 pm ET",
+                "gameSubLabel": "East Group B",
+                "gameSubtype": "in-season",
+                "gameTimeUTC": "2025-11-15T00:30:00Z",
+                "homeTeam": {
+                    "inBonus": null,
+                    "losses": 2,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "Detroit",
+                    "teamId": 1610612765,
+                    "teamName": "Pistons",
+                    "teamTricode": "DET",
+                    "timeoutsRemaining": 0,
+                    "wins": 10
                 },
                 "ifNecessary": false,
                 "isNeutral": false,
@@ -270,18 +387,18 @@
                     ],
                     "score": 0,
                     "seed": null,
-                    "teamCity": "Atlanta",
-                    "teamId": 1610612737,
-                    "teamName": "Hawks",
-                    "teamTricode": "ATL",
+                    "teamCity": "Portland",
+                    "teamId": 1610612757,
+                    "teamName": "Trail Blazers",
+                    "teamTricode": "POR",
                     "timeoutsRemaining": 0,
-                    "wins": 7
+                    "wins": 6
                 },
                 "gameClock": "",
-                "gameCode": "20251113/ATLUTA",
-                "gameEt": "2025-11-13T21:00:00Z",
-                "gameId": "0022500227",
-                "gameLabel": "",
+                "gameCode": "20251114/PORHOU",
+                "gameEt": "2025-11-14T20:00:00Z",
+                "gameId": "0022500042",
+                "gameLabel": "Emirates NBA Cup",
                 "gameLeaders": {
                     "awayLeaders": {
                         "assists": 0,
@@ -292,7 +409,7 @@
                         "points": 0,
                         "position": "",
                         "rebounds": 0,
-                        "teamTricode": "ATL"
+                        "teamTricode": "POR"
                     },
                     "homeLeaders": {
                         "assists": 0,
@@ -303,15 +420,64 @@
                         "points": 0,
                         "position": "",
                         "rebounds": 0,
-                        "teamTricode": "UTA"
+                        "teamTricode": "HOU"
                     }
                 },
                 "gameStatus": 1,
-                "gameStatusText": "9:00 pm ET",
-                "gameSubLabel": "",
-                "gameSubtype": "",
-                "gameTimeUTC": "2025-11-14T02:00:00Z",
+                "gameStatusText": "8:00 pm ET",
+                "gameSubLabel": "West Group C",
+                "gameSubtype": "in-season",
+                "gameTimeUTC": "2025-11-15T01:00:00Z",
                 "homeTeam": {
+                    "inBonus": null,
+                    "losses": 3,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "Houston",
+                    "teamId": 1610612745,
+                    "teamName": "Rockets",
+                    "teamTricode": "HOU",
+                    "timeoutsRemaining": 0,
+                    "wins": 7
+                },
+                "ifNecessary": false,
+                "isNeutral": false,
+                "pbOdds": {
+                    "odds": 0.0,
+                    "suspended": 0,
+                    "team": null
+                },
+                "period": 0,
+                "poRoundDesc": "",
+                "regulationPeriods": 4,
+                "seriesConference": "",
+                "seriesGameNumber": "",
+                "seriesText": ""
+            },
+            {
+                "awayTeam": {
                     "inBonus": null,
                     "losses": 7,
                     "periods": [
@@ -338,12 +504,548 @@
                     ],
                     "score": 0,
                     "seed": null,
-                    "teamCity": "Utah",
-                    "teamId": 1610612762,
-                    "teamName": "Jazz",
-                    "teamTricode": "UTA",
+                    "teamCity": "Charlotte",
+                    "teamId": 1610612766,
+                    "teamName": "Hornets",
+                    "teamTricode": "CHA",
                     "timeoutsRemaining": 0,
                     "wins": 4
+                },
+                "gameClock": "",
+                "gameCode": "20251114/CHAMIL",
+                "gameEt": "2025-11-14T20:00:00Z",
+                "gameId": "0022500043",
+                "gameLabel": "Emirates NBA Cup",
+                "gameLeaders": {
+                    "awayLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "CHA"
+                    },
+                    "homeLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "MIL"
+                    }
+                },
+                "gameStatus": 1,
+                "gameStatusText": "8:00 pm ET",
+                "gameSubLabel": "East Group C",
+                "gameSubtype": "in-season",
+                "gameTimeUTC": "2025-11-15T01:00:00Z",
+                "homeTeam": {
+                    "inBonus": null,
+                    "losses": 5,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "Milwaukee",
+                    "teamId": 1610612749,
+                    "teamName": "Bucks",
+                    "teamTricode": "MIL",
+                    "timeoutsRemaining": 0,
+                    "wins": 7
+                },
+                "ifNecessary": false,
+                "isNeutral": false,
+                "pbOdds": {
+                    "odds": 0.0,
+                    "suspended": 0,
+                    "team": null
+                },
+                "period": 0,
+                "poRoundDesc": "",
+                "regulationPeriods": 4,
+                "seriesConference": "",
+                "seriesGameNumber": "",
+                "seriesText": ""
+            },
+            {
+                "awayTeam": {
+                    "inBonus": null,
+                    "losses": 9,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "Sacramento",
+                    "teamId": 1610612758,
+                    "teamName": "Kings",
+                    "teamTricode": "SAC",
+                    "timeoutsRemaining": 0,
+                    "wins": 3
+                },
+                "gameClock": "",
+                "gameCode": "20251114/SACMIN",
+                "gameEt": "2025-11-14T20:00:00Z",
+                "gameId": "0022500044",
+                "gameLabel": "Emirates NBA Cup",
+                "gameLeaders": {
+                    "awayLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "SAC"
+                    },
+                    "homeLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "MIN"
+                    }
+                },
+                "gameStatus": 1,
+                "gameStatusText": "8:00 pm ET",
+                "gameSubLabel": "West Group A",
+                "gameSubtype": "in-season",
+                "gameTimeUTC": "2025-11-15T01:00:00Z",
+                "homeTeam": {
+                    "inBonus": null,
+                    "losses": 4,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "Minnesota",
+                    "teamId": 1610612750,
+                    "teamName": "Timberwolves",
+                    "teamTricode": "MIN",
+                    "timeoutsRemaining": 0,
+                    "wins": 7
+                },
+                "ifNecessary": false,
+                "isNeutral": false,
+                "pbOdds": {
+                    "odds": 0.0,
+                    "suspended": 0,
+                    "team": null
+                },
+                "period": 0,
+                "poRoundDesc": "",
+                "regulationPeriods": 4,
+                "seriesConference": "",
+                "seriesGameNumber": "",
+                "seriesText": ""
+            },
+            {
+                "awayTeam": {
+                    "inBonus": null,
+                    "losses": 4,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "Los Angeles",
+                    "teamId": 1610612747,
+                    "teamName": "Lakers",
+                    "teamTricode": "LAL",
+                    "timeoutsRemaining": 0,
+                    "wins": 8
+                },
+                "gameClock": "",
+                "gameCode": "20251114/LALNOP",
+                "gameEt": "2025-11-14T20:00:00Z",
+                "gameId": "0022500045",
+                "gameLabel": "Emirates NBA Cup",
+                "gameLeaders": {
+                    "awayLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "LAL"
+                    },
+                    "homeLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "NOP"
+                    }
+                },
+                "gameStatus": 1,
+                "gameStatusText": "8:00 pm ET",
+                "gameSubLabel": "West Group B",
+                "gameSubtype": "in-season",
+                "gameTimeUTC": "2025-11-15T01:00:00Z",
+                "homeTeam": {
+                    "inBonus": null,
+                    "losses": 9,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "New Orleans",
+                    "teamId": 1610612740,
+                    "teamName": "Pelicans",
+                    "teamTricode": "NOP",
+                    "timeoutsRemaining": 0,
+                    "wins": 2
+                },
+                "ifNecessary": false,
+                "isNeutral": false,
+                "pbOdds": {
+                    "odds": 0.0,
+                    "suspended": 0,
+                    "team": null
+                },
+                "period": 0,
+                "poRoundDesc": "",
+                "regulationPeriods": 4,
+                "seriesConference": "",
+                "seriesGameNumber": "",
+                "seriesText": ""
+            },
+            {
+                "awayTeam": {
+                    "inBonus": null,
+                    "losses": 8,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "LA",
+                    "teamId": 1610612746,
+                    "teamName": "Clippers",
+                    "teamTricode": "LAC",
+                    "timeoutsRemaining": 0,
+                    "wins": 3
+                },
+                "gameClock": "",
+                "gameCode": "20251114/LACDAL",
+                "gameEt": "2025-11-14T20:30:00Z",
+                "gameId": "0022500046",
+                "gameLabel": "Emirates NBA Cup",
+                "gameLeaders": {
+                    "awayLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "LAC"
+                    },
+                    "homeLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "DAL"
+                    }
+                },
+                "gameStatus": 1,
+                "gameStatusText": "8:30 pm ET",
+                "gameSubLabel": "West Group B",
+                "gameSubtype": "in-season",
+                "gameTimeUTC": "2025-11-15T01:30:00Z",
+                "homeTeam": {
+                    "inBonus": null,
+                    "losses": 9,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "Dallas",
+                    "teamId": 1610612742,
+                    "teamName": "Mavericks",
+                    "teamTricode": "DAL",
+                    "timeoutsRemaining": 0,
+                    "wins": 3
+                },
+                "ifNecessary": false,
+                "isNeutral": false,
+                "pbOdds": {
+                    "odds": 0.0,
+                    "suspended": 0,
+                    "team": null
+                },
+                "period": 0,
+                "poRoundDesc": "",
+                "regulationPeriods": 4,
+                "seriesConference": "",
+                "seriesGameNumber": "",
+                "seriesText": ""
+            },
+            {
+                "awayTeam": {
+                    "inBonus": null,
+                    "losses": 6,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "Golden State",
+                    "teamId": 1610612744,
+                    "teamName": "Warriors",
+                    "teamTricode": "GSW",
+                    "timeoutsRemaining": 0,
+                    "wins": 7
+                },
+                "gameClock": "",
+                "gameCode": "20251114/GSWSAS",
+                "gameEt": "2025-11-14T21:30:00Z",
+                "gameId": "0022500047",
+                "gameLabel": "Emirates NBA Cup",
+                "gameLeaders": {
+                    "awayLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "GSW"
+                    },
+                    "homeLeaders": {
+                        "assists": 0,
+                        "jerseyNum": "",
+                        "name": "",
+                        "personId": 0,
+                        "playerSlug": null,
+                        "points": 0,
+                        "position": "",
+                        "rebounds": 0,
+                        "teamTricode": "SAS"
+                    }
+                },
+                "gameStatus": 1,
+                "gameStatusText": "9:30 pm ET",
+                "gameSubLabel": "West Group C",
+                "gameSubtype": "in-season",
+                "gameTimeUTC": "2025-11-15T02:30:00Z",
+                "homeTeam": {
+                    "inBonus": null,
+                    "losses": 3,
+                    "periods": [
+                        {
+                            "period": 1,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 2,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 3,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        },
+                        {
+                            "period": 4,
+                            "periodType": "REGULAR",
+                            "score": 0
+                        }
+                    ],
+                    "score": 0,
+                    "seed": null,
+                    "teamCity": "San Antonio",
+                    "teamId": 1610612759,
+                    "teamName": "Spurs",
+                    "teamTricode": "SAS",
+                    "timeoutsRemaining": 0,
+                    "wins": 8
                 },
                 "ifNecessary": false,
                 "isNeutral": false,
