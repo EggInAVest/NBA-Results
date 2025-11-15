@@ -171,14 +171,77 @@ def getDetailedStats():
                 #mostRebounds
                 #mostAssists
 
+   
 
 def getStandings():
-    url = "https://data.nba.com/data/10s/v2015/json/mobile_teams/nba/2025/00_standings.json"
+
+    class Team:
+        def __init__(self, name, wins, losses):
+            self.name = name
+            self.wins = wins
+            self.losses = losses
+    
+    URL = "https://stats.nba.com/stats/leaguestandingsv3"
+
+    PARAMS = {
+        "LeagueID": "00",
+        "Season": "2025-26",
+        "SeasonType": "Regular Season",
+    }
+
+    HEADERS = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/124.0.0.0 Safari/537.36"
+        ),
+        "Accept": "application/json, text/plain, */*",
+        "Referer": "https://www.nba.com/",
+        "Origin": "https://www.nba.com",
+    }
+
+    resp = requests.get(URL, params=PARAMS, headers=HEADERS)
+
+    if resp.status_code == 200:
+        data = resp.json()
+        # Save once so you can explore the structure
+        with open("standings.json", "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
+        headers = data["resultSets"][0]["headers"]
+        rows = data["resultSets"][0]["rowSet"]
+        
+        eastTeams = []
+        westTeams = []
+
+        for row in rows:
+            teamName = row[3] + " " + row[4]
+            teamWins = row[13]
+            teamLosses = row[14]
+            team = Team(teamName, teamWins, teamLosses)
+            if row[6] == "West":
+                westTeams.append(team)
+            else:
+                eastTeams.append(team)
+        westTeams.sort(key=lambda x: x.wins, reverse=True)
+        eastTeams.sort(key=lambda x: x.wins, reverse=True)
+
+        print("Western Conference\n")
+        for team in westTeams:
+            print(f"{team.name:<24} {team.wins:>4} - {team.losses}")
+        print()
+        print("Easter Conference\n")
+        for team in eastTeams:
+            print(f"{team.name:<24} {team.wins:>4} - {team.losses}")
+    else:
+        print(resp.text[:500])
+
+"""     url = "http://rest.nbaapi.com/v1/standings"
     response = requests.get(url)
+    print(response.status_code)
     if response.status_code == 200:
         data = response.json()
         with open(FILENAME, "w", encoding="utf-8") as outfile:
-            json.dump(data, outfile, indent=4, sort_keys=True, ensure_ascii=False)
+            json.dump(data, outfile, indent=4, sort_keys=True, ensure_ascii=False) """
 
 
 
