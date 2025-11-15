@@ -27,7 +27,8 @@ def main():
                 "2. Last nights results (Detailed)\n"
                 "3. Standings\n"
                 "4. Season leaders\n"
-                "5. EXIT\n\n")
+                "5. EXIT\n\n"
+                "Your choice: ")
     if (int(num) == 1):
         getGameStats()
     elif (int(num) == 2):
@@ -54,13 +55,14 @@ def main():
 
 
 def getGameStats():
+    print(f"\n===========    {bcolors.BOLD}LAST NIGHTS STATS (OVERVIEW){bcolors.ENDC}     ===========\n")
     url = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
         # If I want the actual JSON file to check through
-        with open(FILENAME, "w", encoding="utf-8") as outfile:
-            json.dump(data, outfile, indent=4, sort_keys=True, ensure_ascii=False)
+        #with open(FILENAME, "w", encoding="utf-8") as outfile:
+            #json.dump(data, outfile, indent=4, sort_keys=True, ensure_ascii=False)
         games = data["scoreboard"]["games"]
         for game in games:
             awayCity = game["awayTeam"]["teamCity"]
@@ -87,6 +89,7 @@ def getGameStats():
             print(f"{left_out} {awayScore:>3} - {homeScore:<10} {right_out}")
 
 def getDetailedStats():
+    print(f"\n===========    {bcolors.BOLD}LAST NIGHTS STATS (DETAILED){bcolors.ENDC}     ===========\n")
     scoreboardUrl = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json"
     response = requests.get(scoreboardUrl)
     if (response.status_code == 200):
@@ -100,8 +103,8 @@ def getDetailedStats():
             if boxResponse.status_code == 200:
                 gameCount += 1
                 boxData = boxResponse.json()
-                with open(FILENAME2, "w", encoding="utf-8") as outfile:
-                    json.dump(boxData, outfile, indent=4, sort_keys=True, ensure_ascii=False)
+                #with open(FILENAME2, "w", encoding="utf-8") as outfile:
+                    #json.dump(boxData, outfile, indent=4, sort_keys=True, ensure_ascii=False)
                 awayTeam = boxData["game"]["awayTeam"]
                 awayTeamCode = awayTeam["teamTricode"]
                 homeTeam = boxData["game"]["homeTeam"]
@@ -113,7 +116,7 @@ def getDetailedStats():
                 homeStatus = "W" if homeTeamScore > awayTeamScore else "L"
 
                 print(f"AWAY TEAM {awayTeamCode} {awayTeamScore} {awayStatus}\n")
-                print(f"{'NAME':<20} {'PTS':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
+                print(f"{'NAME':<25} {'PTS':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
                 for player in awayTeam["players"]:
                     name = player["name"]
                     status = player.get("status", "")
@@ -134,13 +137,13 @@ def getDetailedStats():
                         FGP = player["statistics"]["fieldGoalsPercentage"]
                         FGP = FGP * 100
                         FGP = round(FGP, 2)
-                        print(f"{name:<20} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
+                        print(f"{name:<25} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
                     else:
                         reason = player.get("notPlayingReason", "DID NOT PLAY")
-                        print(f"{name:<20}   DNP {reason}")
+                        print(f"{name:<25}   DNP {reason}")
                 print()
                 print(f"HOME TEAM {homeTeamCode} {homeTeamScore} {homeStatus}\n")
-                print(f"{'NAME':<20} {'PTS':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
+                print(f"{'NAME':<25} {'PTS':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
                 for player in homeTeam["players"]:
                     name = player["name"]
                     status = player.get("status", "")
@@ -161,19 +164,14 @@ def getDetailedStats():
                         FGP = player["statistics"]["fieldGoalsPercentage"]
                         FGP = FGP * 100
                         FGP = round(FGP, 2)
-                        print(f"{name:<20} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
+                        print(f"{name:<25} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
                     else:
                         reason = player.get("notPlayingReason", "DID NOT PLAY")
-                        print(f"{name:<20}   DNP {reason}")
-                print(80 * "-")
-
-				#mostPoints
-                #mostRebounds
-                #mostAssists
-
-   
+                        print(f"{name:<25}   DNP {reason}")
+                print(80 * "-")   
 
 def getStandings():
+    print(f"\n===========    {bcolors.BOLD}SEASON STANDINGS{bcolors.ENDC}     ===========\n")
 
     class Team:
         def __init__(self, name, wins, losses):
@@ -204,9 +202,8 @@ def getStandings():
 
     if resp.status_code == 200:
         data = resp.json()
-        # Save once so you can explore the structure
-        with open("standings.json", "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
+        #with open("standings.json", "w", encoding="utf-8") as f:
+            #json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
         headers = data["resultSets"][0]["headers"]
         rows = data["resultSets"][0]["rowSet"]
         
