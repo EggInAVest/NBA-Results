@@ -15,6 +15,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 FILENAME = "data.json"
+FILENAME2 = "players.json"
 
 
 # Defining main function
@@ -91,15 +92,85 @@ def getDetailedStats():
     if (response.status_code == 200):
         scoreData = response.json()
         games = scoreData["scoreboard"]["games"]
+        gameCount = 0
         for game in games:
             gameId = game["gameId"]
             boxScoreUrl = f"https://cdn.nba.com/static/json/liveData/boxscore/boxscore_{gameId}.json"
             boxResponse = requests.get(boxScoreUrl)
-            print(boxResponse)
             if boxResponse.status_code == 200:
+                gameCount += 1
                 boxData = boxResponse.json()
-                with open(FILENAME, "w", encoding="utf-8") as outfile:
+                with open(FILENAME2, "w", encoding="utf-8") as outfile:
                     json.dump(boxData, outfile, indent=4, sort_keys=True, ensure_ascii=False)
+                awayTeam = boxData["game"]["awayTeam"]
+                awayTeamCode = awayTeam["teamTricode"]
+                homeTeam = boxData["game"]["homeTeam"]
+                homeTeamCode = homeTeam["teamTricode"]
+                awayTeamScore = awayTeam["score"]
+                homeTeamScore = homeTeam["score"]
+
+                awayStatus = "W" if awayTeamScore > homeTeamScore else "L"
+                homeStatus = "W" if homeTeamScore > awayTeamScore else "L"
+
+                print(f"AWAY TEAM {awayTeamCode} {awayTeamScore} {awayStatus}\n")
+                print(f"{'NAME':<20} {'PTS':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
+                for player in awayTeam["players"]:
+                    name = player["name"]
+                    status = player.get("status", "")
+                    played = player.get("played", "0")
+                    if status == "ACTIVE" and played == "1":
+                        points = player["statistics"]["points"]
+                        rebounds = player["statistics"]["reboundsTotal"]
+                        assists = player["statistics"]["assists"]
+                        blocks = player["statistics"]["blocks"]
+                        steals = player["statistics"]["steals"]
+                        turnovers = player["statistics"]["turnovers"]
+                        FGM = player["statistics"]["fieldGoalsMade"]
+                        FGA = player["statistics"]["fieldGoalsAttempted"]
+                        FG = str(FGM) + "/" + str(FGA)
+                        TPM = player["statistics"]["threePointersMade"]
+                        TPA = player["statistics"]["threePointersAttempted"]
+                        threes = str(TPM) + "/" + str(TPA)
+                        FGP = player["statistics"]["fieldGoalsPercentage"]
+                        FGP = FGP * 100
+                        FGP = round(FGP, 2)
+                        print(f"{name:<20} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
+                    else:
+                        reason = player.get("notPlayingReason", "DID NOT PLAY")
+                        print(f"{name:<20}   DNP {reason}")
+                print()
+                print(f"HOME TEAM {homeTeamCode} {homeTeamScore} {homeStatus}\n")
+                print(f"{'NAME':<20} {'PTS':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
+                for player in homeTeam["players"]:
+                    name = player["name"]
+                    status = player.get("status", "")
+                    played = player.get("played", "0")
+                    if status == "ACTIVE" and played == "1":
+                        points = player["statistics"]["points"]
+                        rebounds = player["statistics"]["reboundsTotal"]
+                        assists = player["statistics"]["assists"]
+                        blocks = player["statistics"]["blocks"]
+                        steals = player["statistics"]["steals"]
+                        turnovers = player["statistics"]["turnovers"]
+                        FGM = player["statistics"]["fieldGoalsMade"]
+                        FGA = player["statistics"]["fieldGoalsAttempted"]
+                        FG = str(FGM) + "/" + str(FGA)
+                        TPM = player["statistics"]["threePointersMade"]
+                        TPA = player["statistics"]["threePointersAttempted"]
+                        threes = str(TPM) + "/" + str(TPA)
+                        FGP = player["statistics"]["fieldGoalsPercentage"]
+                        FGP = FGP * 100
+                        FGP = round(FGP, 2)
+                        print(f"{name:<20} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
+                    else:
+                        reason = player.get("notPlayingReason", "DID NOT PLAY")
+                        print(f"{name:<20}   DNP {reason}")
+                print(80 * "-")
+
+				#mostPoints
+                #mostRebounds
+                #mostAssists
+
 
 def getStandings():
     url = "https://data.nba.com/data/10s/v2015/json/mobile_teams/nba/2025/00_standings.json"
