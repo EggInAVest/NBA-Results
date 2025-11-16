@@ -46,17 +46,6 @@ def main():
     else:
         print("Invalid input\n")
 
-"""         if len(sys.argv) == 1:
-            getGameStats()
-        elif len(sys.argv) == 2 and sys.argv[1] == "details":
-            print("Details")
-            #getDetailed()
-        else:
-            print("Either no arguments or 'detailed'") """
-
-
-
-
 def getGameStats():
     print(f"\n===========    {bcolors.BOLD}LAST NIGHTS STATS (OVERVIEW){bcolors.ENDC}     ===========\n")
     url = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json"
@@ -233,7 +222,7 @@ def getStandings():
         for team in eastTeams:
             print(f"{team.name:<24} {team.wins:>4} - {team.losses}")
     else:
-        print(response.text[:500])
+        print(f"Error in the URL: {response.status_code}")
 
 
 def getBetLeaderboard():
