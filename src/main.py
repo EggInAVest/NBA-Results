@@ -27,7 +27,8 @@ def main():
                 "2. Last nights results (Detailed)\n"
                 "3. Standings\n"
                 "4. Season leaders\n"
-                "5. EXIT\n\n"
+                "5. Bet scoreboard\n"
+                "6. EXIT\n\n"
                 "Your choice: ")
     if (int(num) == 1):
         getGameStats()
@@ -38,6 +39,8 @@ def main():
     #elif (int(num) == 4):
         #getLeaders()
     elif (int(num) == 5):
+        getBetLeaderboard()
+    elif (int(num) == 6):
         print("Good bye!")
         exit()
     else:
@@ -169,6 +172,8 @@ def getDetailedStats():
                         reason = player.get("notPlayingReason", "DID NOT PLAY")
                         print(f"{name:<25}   DNP {reason}")
                 print(80 * "-")   
+        if gameCount == 0:
+            print("No games started yet")
 
 def getStandings():
     print(f"\n===========    {bcolors.BOLD}SEASON STANDINGS{bcolors.ENDC}     ===========\n")
@@ -197,14 +202,12 @@ def getStandings():
         "Referer": "https://www.nba.com/",
         "Origin": "https://www.nba.com",
     }
+    response = requests.get(URL, params=PARAMS, headers=HEADERS)
 
-    resp = requests.get(URL, params=PARAMS, headers=HEADERS)
-
-    if resp.status_code == 200:
-        data = resp.json()
+    if response.status_code == 200:
+        data = response.json()
         #with open("standings.json", "w", encoding="utf-8") as f:
             #json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
-        headers = data["resultSets"][0]["headers"]
         rows = data["resultSets"][0]["rowSet"]
         
         eastTeams = []
@@ -230,15 +233,181 @@ def getStandings():
         for team in eastTeams:
             print(f"{team.name:<24} {team.wins:>4} - {team.losses}")
     else:
-        print(resp.text[:500])
+        print(response.text[:500])
 
-"""     url = "http://rest.nbaapi.com/v1/standings"
-    response = requests.get(url)
-    print(response.status_code)
+
+def getBetLeaderboard():
+    print(f"\n===========    {bcolors.BOLD}BET LEADERBOARD{bcolors.ENDC}     ===========\n")
+
+    class Team:
+        def __init__(self, name: str = "", points: int = 0):
+            self.name = name
+            self.points = points
+
+    class Player:
+        def __init__(self, name: str, winner1: Team, winner2: Team, loser1: Team, loser2: Team):
+            self.name = name
+            self.winner1 = winner1
+            self.winner2 = winner2
+            self.loser1 = loser1
+            self.loser2 = loser2
+            self.totalPoints = 0
+    
+    def scorePlayer(player: Player, teamName: str, wins: int, losses: int):
+        if teamName == player.winner1.name:
+            player.winner1.points = wins
+        elif teamName == player.winner2.name:
+            player.winner2.points = wins
+        elif teamName == player.loser1.name:
+            player.loser1.points = losses
+        elif teamName == player.loser2.name:
+            player.loser2.points = losses
+
+        player.totalPoints = player.winner1.points + player.winner2.points + player.loser1.points + player.loser2.points
+
+    URL = "https://stats.nba.com/stats/leaguestandingsv3"
+
+    PARAMS = {
+        "LeagueID": "00",
+        "Season": "2025-26",
+        "SeasonType": "Regular Season",
+    }
+
+    HEADERS = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/124.0.0.0 Safari/537.36"
+        ),
+        "Accept": "application/json, text/plain, */*",
+        "Referer": "https://www.nba.com/",
+        "Origin": "https://www.nba.com",
+    }
+    response = requests.get(URL, params=PARAMS, headers=HEADERS)
+
     if response.status_code == 200:
         data = response.json()
-        with open(FILENAME, "w", encoding="utf-8") as outfile:
-            json.dump(data, outfile, indent=4, sort_keys=True, ensure_ascii=False) """
+        #with open("standings.json", "w", encoding="utf-8") as f:
+            #json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
+        rows = data["resultSets"][0]["rowSet"]
+        Roni = Player("Roni",
+                      Team("Oklahoma City Thunder", 0),
+                      Team("New York Knicks", 0),
+                      Team("New Orleans Pelicans", 0),
+                      Team("Philadelphia 76ers", 0),
+                      )
+        Rasmus = Player("Rasmus",
+                      Team("Cleveland Cavaliers", 0),
+                      Team("Minnesota Timberwolves", 0),
+                      Team("Charlotte Hornets", 0),
+                      Team("Phoenix Suns", 0),
+                      )
+        Tony = Player("Tony",
+                      Team("Dallas Mavericks", 0),
+                      Team("Milwaukee Bucks", 0),
+                      Team("Toronto Raptors", 0),
+                      Team("Washington Wizards", 0),
+                      )
+        Sakari = Player("Sakari",
+                      Team("Houston Rockets", 0),
+                      Team("Orlando Magic", 0),
+                      Team("Utah Jazz", 0),
+                      Team("Chicago Bulls", 0),
+                      )
+        Tomi = Player("Tomi",
+                      Team("Denver Nuggets", 0),
+                      Team("Los Angeles Lakers", 0),
+                      Team("Brooklyn Nets", 0),
+                      Team("Boston Celtics", 0),
+                      )
+        for row in rows:
+            teamName = row[3] + " " + row[4]
+            
+            # Check Ronis teams
+            if teamName in (Roni.winner1.name, Roni.winner2.name, Roni.loser1.name, Roni.loser2.name):
+                teamWins = row[13]
+                teamLosses = row[14]
+                scorePlayer(Roni, teamName, teamWins, teamLosses)
+            
+            # Check Rasmus teams
+            elif teamName in (Rasmus.winner1.name, Rasmus.winner2.name, Rasmus.loser1.name, Rasmus.loser2.name):
+                teamWins = row[13]
+                teamLosses = row[14]
+                scorePlayer(Rasmus, teamName, teamWins, teamLosses)
+            # Check Tonys teams
+            elif teamName in (Tony.winner1.name, Tony.winner2.name, Tony.loser1.name, Tony.loser2.name):
+                teamWins = row[13]
+                teamLosses = row[14]
+                scorePlayer(Tony, teamName, teamWins, teamLosses)
+
+            # Check Sakaris teams
+            elif teamName in (Sakari.winner1.name, Sakari.winner2.name, Sakari.loser1.name, Sakari.loser2.name):
+                teamWins = row[13]
+                teamLosses = row[14]
+                scorePlayer(Sakari, teamName, teamWins, teamLosses)
+            
+            # Check Tomis teams
+            elif teamName in (Tomi.winner1.name, Tomi.winner2.name, Tomi.loser1.name, Tomi.loser2.name):
+                teamWins = row[13]
+                teamLosses = row[14]
+                scorePlayer(Tomi, teamName, teamWins, teamLosses)
+
+        leaderBoard:dict[str, int] = {Roni.name:Roni.totalPoints,
+                            Rasmus.name:Rasmus.totalPoints,
+                            Tony.name:Tony.totalPoints,
+                            Sakari.name:Sakari.totalPoints,
+                            Tomi.name:Tomi.totalPoints}
+        
+        sortedLeaderboard = sorted(leaderBoard.items(), key=lambda item: item[1], reverse=True)
+        position = 1
+        for name, points in sortedLeaderboard:
+            print(f"{position}. {name:<10} {points:>3} pts")
+            position += 1
+        
+        print("\n-------  Ronis teams  -------\n")
+        print("Winners")
+        print(f"{Roni.winner1.name:<25} {Roni.winner1.points:>3}")
+        print(f"{Roni.winner2.name:<25} {Roni.winner2.points:>3}")
+        print("\nLoosers")
+        print(f"{Roni.loser1.name:<25} {Roni.loser1.points:>3}")
+        print(f"{Roni.loser2.name:<25} {Roni.loser2.points:>3}")
+        print(f"\nTotal points {Roni.totalPoints:>16}")
+
+        print("\n-------  Rasmus teams  -------\n")
+        print("Winners")
+        print(f"{Rasmus.winner1.name:<25} {Rasmus.winner1.points:>3}")
+        print(f"{Rasmus.winner2.name:<25} {Rasmus.winner2.points:>3}")
+        print("\nLoosers")
+        print(f"{Rasmus.loser1.name:<25} {Rasmus.loser1.points:>3}")
+        print(f"{Rasmus.loser2.name:<25} {Rasmus.loser2.points:>3}")
+        print(f"\nTotal points {Rasmus.totalPoints:>16}")
+
+        print("\n-------  Tonys teams  -------\n")
+        print("Winners")
+        print(f"{Tony.winner1.name:<25} {Tony.winner1.points:>3}")
+        print(f"{Tony.winner2.name:<25} {Tony.winner2.points:>3}")
+        print("\nLoosers")
+        print(f"{Tony.loser1.name:<25} {Tony.loser1.points:>3}")
+        print(f"{Tony.loser2.name:<25} {Tony.loser2.points:>3}")
+        print(f"\nTotal points {Tony.totalPoints:>16}")
+
+        print("\n-------  Sakaris teams  -------\n")
+        print("Winners")
+        print(f"{Sakari.winner1.name:<25} {Sakari.winner1.points:>3}")
+        print(f"{Sakari.winner2.name:<25} {Sakari.winner2.points:>3}")
+        print("\nLoosers")
+        print(f"{Sakari.loser1.name:<25} {Sakari.loser1.points:>3}")
+        print(f"{Sakari.loser2.name:<25} {Sakari.loser2.points:>3}")
+        print(f"\nTotal points {Sakari.totalPoints:>16}")
+
+        print("\n-------  Tomis teams  -------\n")
+        print("Winners")
+        print(f"{Tomi.winner1.name:<25} {Tomi.winner1.points:>3}")
+        print(f"{Tomi.winner2.name:<25} {Tomi.winner2.points:>3}")
+        print("\nLoosers")
+        print(f"{Tomi.loser1.name:<25} {Tomi.loser1.points:>3}")
+        print(f"{Tomi.loser2.name:<25} {Tomi.loser2.points:>3}")
+        print(f"\nTotal points {Tomi.totalPoints:>16}")
 
 
 
