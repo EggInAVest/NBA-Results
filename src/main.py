@@ -2,6 +2,9 @@ import sys
 import requests
 import json
 import http.client
+from nba_api.stats.endpoints import leaguestandings
+from nba_api.stats.static import teams
+
 
 class bcolors:
     HEADER = '\033[95m'
@@ -21,7 +24,6 @@ FILENAME2 = "players.json"
 # Defining main function
 def main():
     print(f"\n======    {bcolors.BOLD}{bcolors.OKBLUE}N{bcolors.ENDC}B{bcolors.BOLD}{bcolors.FAIL}A{bcolors.ENDC} STATS     ======")
-    #while (True):
     print("\nPlease choose...\n")
     num = input("1. Last nights results (Overview)\n"
                 "2. Last nights results (Detailed)\n"
@@ -35,7 +37,9 @@ def main():
     elif (int(num) == 2):
         getDetailedStats()
     elif (int(num) == 3):
-        getStandings()
+        #getStandings()
+        #getStandings_debug()
+        getStandings_test()
     #elif (int(num) == 4):
         #getLeaders()
     elif (int(num) == 5):
@@ -166,7 +170,45 @@ def getDetailedStats():
 
 def getStandings():
     print(f"\n===========    {bcolors.BOLD}SEASON STANDINGS{bcolors.ENDC}     ===========\n")
+    # Call nba_api endpoint
+    standings = leaguestandings.LeagueStandings(
+        league_id="00",
+        season="2025-26",          # or "2024-25" depending what you want
+        season_type="Regular Season"
+    )
 
+    # Get first DataFrame from the response
+    df = standings.get_data_frames()[0]
+
+    # Split to West/East and sort by wins desc
+    west = df[df["Conference"] == "West"].copy()
+    east = df[df["Conference"] == "East"].copy()
+
+    # WINS / LOSSES come as strings, so convert to int for sorting/printing
+    west["WINS"] = west["WINS"].astype(int)
+    west["LOSSES"] = west["LOSSES"].astype(int)
+    east["WINS"] = east["WINS"].astype(int)
+    east["LOSSES"] = east["LOSSES"].astype(int)
+
+    west = west.sort_values("WINS", ascending=False)
+    east = east.sort_values("WINS", ascending=False)
+
+    print("Western Conference\n")
+    for _, row in west.iterrows():
+        name = f"{row['TeamCity']} {row['TeamName']}"
+        wins = row["WINS"]
+        losses = row["LOSSES"]
+        print(f"{name:<24} {wins:>4} - {losses}")
+
+    print()
+    print("Eastern Conference\n")
+    for _, row in east.iterrows():
+        name = f"{row['TeamCity']} {row['TeamName']}"
+        wins = row["WINS"]
+        losses = row["LOSSES"]
+        print(f"{name:<24} {wins:>4} - {losses}")
+
+"""
     class Team:
         def __init__(self, name, wins, losses):
             self.name = name
@@ -222,7 +264,93 @@ def getStandings():
         for team in eastTeams:
             print(f"{team.name:<24} {team.wins:>4} - {team.losses}")
     else:
-        print(f"Error in the URL: {response.status_code}")
+        print(f"Error in the URL: {response.status_code}")"""
+
+def getStandings_debug():
+    print("\n[1] Calling LeagueStandings endpoint...\n")
+
+    standings = leaguestandings.LeagueStandings(
+        league_id="00",
+        season="2025-26",
+        season_type="Regular Season"
+    )
+
+    print("[2] Got LeagueStandings object:", type(standings))
+
+    # Get all DataFrames
+    df_list = standings.get_data_frames()
+    print("\n[3] Number of DataFrames returned:", len(df_list))
+
+    # Show their types
+    for i, df in enumerate(df_list):
+        print(f"   - df_list[{i}] type:", type(df))
+        print(f"     shape: {df.shape}")  # (rows, columns)
+
+    # Take the first one (the standings)
+    df = df_list[0]
+    print("\n[4] Columns in df:")
+    print(df.columns.tolist())
+
+    print("\n[5] First 5 rows of the raw df:")
+    print(df.head())   # show a small sample
+
+    # Split into West / East
+    west = df[df["Conference"] == "West"].copy()
+    east = df[df["Conference"] == "East"].copy()
+
+    print("\n[6] West standings shape:", west.shape)
+    print("[6] East standings shape:", east.shape)
+
+    # Show a couple of rows for each conference
+    print("\n[7] Sample West rows (before type conversion):")
+    print(west[["TeamCity", "TeamName", "Conference", "WINS", "LOSSES"]].head())
+
+    print("\n[8] Sample East rows (before type conversion):")
+    print(east[["TeamCity", "TeamName", "Conference", "WINS", "LOSSES"]].head())
+
+    # Convert WINS / LOSSES to int
+    west["WINS"] = west["WINS"].astype(int)
+    west["LOSSES"] = west["LOSSES"].astype(int)
+    east["WINS"] = east["WINS"].astype(int)
+    east["LOSSES"] = east["LOSSES"].astype(int)
+
+    print("\n[9] dtypes after conversion:")
+    print("West:\n", west[["WINS", "LOSSES"]].dtypes)
+    print("East:\n", east[["WINS", "LOSSES"]].dtypes)
+
+    # Sort
+    west = west.sort_values("WINS", ascending=False)
+    east = east.sort_values("WINS", ascending=False)
+
+    print("\n[10] Top 3 in West after sort:")
+    print(west[["TeamCity", "TeamName", "WINS", "LOSSES"]].head(3))
+
+    print("\n[11] Top 3 in East after sort:")
+    print(east[["TeamCity", "TeamName", "WINS", "LOSSES"]].head(3))
+
+    # Final pretty print (same as before)
+    print("\n===========    SEASON STANDINGS (FINAL PRINT)     ===========\n")
+
+    print("Western Conference\n")
+    for _, row in west.iterrows():
+        name = f"{row['TeamCity']} {row['TeamName']}"
+        wins = row["WINS"]
+        losses = row["LOSSES"]
+        print(f"{name:<24} {wins:>4} - {losses}")
+
+    print()
+    print("Eastern Conference\n")
+    for _, row in east.iterrows():
+        name = f"{row['TeamCity']} {row['TeamName']}"
+        wins = row["WINS"]
+        losses = row["LOSSES"]
+        print(f"{name:<24} {wins:>4} - {losses}")
+
+
+def getStandings_test():
+    nba_teams = teams.get_teams()
+    for team in nba_teams:
+        print(team)
 
 
 def getBetLeaderboard():
