@@ -37,9 +37,7 @@ def main():
     elif (int(num) == 2):
         getDetailedStats()
     elif (int(num) == 3):
-        #getStandings()
-        #getStandings_debug()
-        getStandings_test()
+        getStandings()
     #elif (int(num) == 4):
         #getLeaders()
     elif (int(num) == 5):
@@ -112,12 +110,13 @@ def getDetailedStats():
                 homeStatus = "W" if homeTeamScore > awayTeamScore else "L"
 
                 print(f"AWAY TEAM {awayTeamCode} {awayTeamScore} {awayStatus}\n")
-                print(f"{'NAME':<25} {'PTS':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
+                print(f"{'NAME':<25} {'MIN':>4} {'PTS':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
                 for player in awayTeam["players"]:
                     name = player["name"]
                     status = player.get("status", "")
                     played = player.get("played", "0")
                     if status == "ACTIVE" and played == "1":
+                        minutes = player["statistics"]["minutes"]
                         points = player["statistics"]["points"]
                         rebounds = player["statistics"]["reboundsTotal"]
                         assists = player["statistics"]["assists"]
@@ -133,18 +132,19 @@ def getDetailedStats():
                         FGP = player["statistics"]["fieldGoalsPercentage"]
                         FGP = FGP * 100
                         FGP = round(FGP, 2)
-                        print(f"{name:<25} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
+                        print(f"{name:<25} {minutes:>4} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
                     else:
                         reason = player.get("notPlayingReason", "DID NOT PLAY")
                         print(f"{name:<25}   DNP {reason}")
                 print()
                 print(f"HOME TEAM {homeTeamCode} {homeTeamScore} {homeStatus}\n")
-                print(f"{'NAME':<25} {'PTS':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
+                print(f"{'NAME':<25} {'PTS':>4} {'MIN':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
                 for player in homeTeam["players"]:
                     name = player["name"]
                     status = player.get("status", "")
                     played = player.get("played", "0")
                     if status == "ACTIVE" and played == "1":
+                        minutes = player["statistics"]["minutes"]
                         points = player["statistics"]["points"]
                         rebounds = player["statistics"]["reboundsTotal"]
                         assists = player["statistics"]["assists"]
@@ -160,7 +160,7 @@ def getDetailedStats():
                         FGP = player["statistics"]["fieldGoalsPercentage"]
                         FGP = FGP * 100
                         FGP = round(FGP, 2)
-                        print(f"{name:<25} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
+                        print(f"{name:<25} {minutes:>4} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
                     else:
                         reason = player.get("notPlayingReason", "DID NOT PLAY")
                         print(f"{name:<25}   DNP {reason}")
@@ -170,104 +170,12 @@ def getDetailedStats():
 
 def getStandings():
     print(f"\n===========    {bcolors.BOLD}SEASON STANDINGS{bcolors.ENDC}     ===========\n")
-    # Call nba_api endpoint
-    standings = leaguestandings.LeagueStandings(
-        league_id="00",
-        season="2025-26",          # or "2024-25" depending what you want
-        season_type="Regular Season"
-    )
-
-    # Get first DataFrame from the response
-    df = standings.get_data_frames()[0]
-
-    # Split to West/East and sort by wins desc
-    west = df[df["Conference"] == "West"].copy()
-    east = df[df["Conference"] == "East"].copy()
-
-    # WINS / LOSSES come as strings, so convert to int for sorting/printing
-    west["WINS"] = west["WINS"].astype(int)
-    west["LOSSES"] = west["LOSSES"].astype(int)
-    east["WINS"] = east["WINS"].astype(int)
-    east["LOSSES"] = east["LOSSES"].astype(int)
-
-    west = west.sort_values("WINS", ascending=False)
-    east = east.sort_values("WINS", ascending=False)
-
-    print("Western Conference\n")
-    for _, row in west.iterrows():
-        name = f"{row['TeamCity']} {row['TeamName']}"
-        wins = row["WINS"]
-        losses = row["LOSSES"]
-        print(f"{name:<24} {wins:>4} - {losses}")
-
-    print()
-    print("Eastern Conference\n")
-    for _, row in east.iterrows():
-        name = f"{row['TeamCity']} {row['TeamName']}"
-        wins = row["WINS"]
-        losses = row["LOSSES"]
-        print(f"{name:<24} {wins:>4} - {losses}")
-
-"""
+    
     class Team:
         def __init__(self, name, wins, losses):
             self.name = name
             self.wins = wins
             self.losses = losses
-    
-    URL = "https://stats.nba.com/stats/leaguestandingsv3"
-
-    PARAMS = {
-        "LeagueID": "00",
-        "Season": "2025-26",
-        "SeasonType": "Regular Season",
-    }
-
-    HEADERS = {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/124.0.0.0 Safari/537.36"
-        ),
-        "Accept": "application/json, text/plain, */*",
-        "Referer": "https://www.nba.com/",
-        "Origin": "https://www.nba.com",
-    }
-    response = requests.get(URL, params=PARAMS, headers=HEADERS)
-
-    if response.status_code == 200:
-        data = response.json()
-        #with open("standings.json", "w", encoding="utf-8") as f:
-            #json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
-        rows = data["resultSets"][0]["rowSet"]
-        
-        eastTeams = []
-        westTeams = []
-
-        for row in rows:
-            teamName = row[3] + " " + row[4]
-            teamWins = row[13]
-            teamLosses = row[14]
-            team = Team(teamName, teamWins, teamLosses)
-            if row[6] == "West":
-                westTeams.append(team)
-            else:
-                eastTeams.append(team)
-        westTeams.sort(key=lambda x: x.wins, reverse=True)
-        eastTeams.sort(key=lambda x: x.wins, reverse=True)
-
-        print("Western Conference\n")
-        for team in westTeams:
-            print(f"{team.name:<24} {team.wins:>4} - {team.losses}")
-        print()
-        print("Easter Conference\n")
-        for team in eastTeams:
-            print(f"{team.name:<24} {team.wins:>4} - {team.losses}")
-    else:
-        print(f"Error in the URL: {response.status_code}")"""
-
-def getStandings_debug():
-    print("\n[1] Calling LeagueStandings endpoint...\n")
 
     standings = leaguestandings.LeagueStandings(
         league_id="00",
@@ -275,82 +183,30 @@ def getStandings_debug():
         season_type="Regular Season"
     )
 
-    print("[2] Got LeagueStandings object:", type(standings))
+    dataFrame = standings.get_data_frames()[0]
 
-    # Get all DataFrames
-    df_list = standings.get_data_frames()
-    print("\n[3] Number of DataFrames returned:", len(df_list))
+    westTeams = []
+    eastTeams = []
 
-    # Show their types
-    for i, df in enumerate(df_list):
-        print(f"   - df_list[{i}] type:", type(df))
-        print(f"     shape: {df.shape}")  # (rows, columns)
+    for index, row in dataFrame.iterrows():
+        teamName = row["TeamCity"] + " " + row["TeamName"]
+        wins = int(row["WINS"])
+        losses = int(row["LOSSES"])
+        if row["Conference"] == "West":
+            westTeams.append(Team(teamName, wins, losses))
+        else:
+            eastTeams.append(Team(teamName, wins, losses))
 
-    # Take the first one (the standings)
-    df = df_list[0]
-    print("\n[4] Columns in df:")
-    print(df.columns.tolist())
-
-    print("\n[5] First 5 rows of the raw df:")
-    print(df.head())   # show a small sample
-
-    # Split into West / East
-    west = df[df["Conference"] == "West"].copy()
-    east = df[df["Conference"] == "East"].copy()
-
-    print("\n[6] West standings shape:", west.shape)
-    print("[6] East standings shape:", east.shape)
-
-    # Show a couple of rows for each conference
-    print("\n[7] Sample West rows (before type conversion):")
-    print(west[["TeamCity", "TeamName", "Conference", "WINS", "LOSSES"]].head())
-
-    print("\n[8] Sample East rows (before type conversion):")
-    print(east[["TeamCity", "TeamName", "Conference", "WINS", "LOSSES"]].head())
-
-    # Convert WINS / LOSSES to int
-    west["WINS"] = west["WINS"].astype(int)
-    west["LOSSES"] = west["LOSSES"].astype(int)
-    east["WINS"] = east["WINS"].astype(int)
-    east["LOSSES"] = east["LOSSES"].astype(int)
-
-    print("\n[9] dtypes after conversion:")
-    print("West:\n", west[["WINS", "LOSSES"]].dtypes)
-    print("East:\n", east[["WINS", "LOSSES"]].dtypes)
-
-    # Sort
-    west = west.sort_values("WINS", ascending=False)
-    east = east.sort_values("WINS", ascending=False)
-
-    print("\n[10] Top 3 in West after sort:")
-    print(west[["TeamCity", "TeamName", "WINS", "LOSSES"]].head(3))
-
-    print("\n[11] Top 3 in East after sort:")
-    print(east[["TeamCity", "TeamName", "WINS", "LOSSES"]].head(3))
-
-    # Final pretty print (same as before)
-    print("\n===========    SEASON STANDINGS (FINAL PRINT)     ===========\n")
+    westTeams.sort(key=lambda x: x.wins, reverse=True)
+    eastTeams.sort(key=lambda x: x.wins, reverse=True)
 
     print("Western Conference\n")
-    for _, row in west.iterrows():
-        name = f"{row['TeamCity']} {row['TeamName']}"
-        wins = row["WINS"]
-        losses = row["LOSSES"]
-        print(f"{name:<24} {wins:>4} - {losses}")
-
+    for team in westTeams:
+        print(f"{team.name:<24} {team.wins:>4} - {team.losses}")
     print()
-    print("Eastern Conference\n")
-    for _, row in east.iterrows():
-        name = f"{row['TeamCity']} {row['TeamName']}"
-        wins = row["WINS"]
-        losses = row["LOSSES"]
-        print(f"{name:<24} {wins:>4} - {losses}")
-
-
-def getStandings_test():
-    nba_teams = teams.get_teams()
-    for team in nba_teams:
-        print(team)
+    print("Easter Conference\n")
+    for team in eastTeams:
+        print(f"{team.name:<24} {team.wins:>4} - {team.losses}")
 
 
 def getBetLeaderboard():
@@ -382,92 +238,76 @@ def getBetLeaderboard():
 
         player.totalPoints = player.winner1.points + player.winner2.points + player.loser1.points + player.loser2.points
 
-    URL = "https://stats.nba.com/stats/leaguestandingsv3"
+    standings = leaguestandings.LeagueStandings(
+        league_id="00",
+        season="2025-26",
+        season_type="Regular Season"
+    )
 
-    PARAMS = {
-        "LeagueID": "00",
-        "Season": "2025-26",
-        "SeasonType": "Regular Season",
-    }
+    dataFrame = standings.get_data_frames()[0]
 
-    HEADERS = {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/124.0.0.0 Safari/537.36"
-        ),
-        "Accept": "application/json, text/plain, */*",
-        "Referer": "https://www.nba.com/",
-        "Origin": "https://www.nba.com",
-    }
-    response = requests.get(URL, params=PARAMS, headers=HEADERS)
-
-    if response.status_code == 200:
-        data = response.json()
-        #with open("standings.json", "w", encoding="utf-8") as f:
-            #json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
-        rows = data["resultSets"][0]["rowSet"]
-        Roni = Player("Roni",
+    Roni = Player("Roni",
                       Team("Oklahoma City Thunder", 0),
                       Team("New York Knicks", 0),
                       Team("New Orleans Pelicans", 0),
                       Team("Philadelphia 76ers", 0),
                       )
-        Rasmus = Player("Rasmus",
+    Rasmus = Player("Rasmus",
                       Team("Cleveland Cavaliers", 0),
                       Team("Minnesota Timberwolves", 0),
                       Team("Charlotte Hornets", 0),
                       Team("Phoenix Suns", 0),
                       )
-        Tony = Player("Tony",
+    Tony = Player("Tony",
                       Team("Dallas Mavericks", 0),
                       Team("Milwaukee Bucks", 0),
                       Team("Toronto Raptors", 0),
                       Team("Washington Wizards", 0),
                       )
-        Sakari = Player("Sakari",
+    Sakari = Player("Sakari",
                       Team("Houston Rockets", 0),
                       Team("Orlando Magic", 0),
                       Team("Utah Jazz", 0),
                       Team("Chicago Bulls", 0),
                       )
-        Tomi = Player("Tomi",
+    Tomi = Player("Tomi",
                       Team("Denver Nuggets", 0),
                       Team("Los Angeles Lakers", 0),
                       Team("Brooklyn Nets", 0),
                       Team("Boston Celtics", 0),
                       )
-        for row in rows:
-            teamName = row[3] + " " + row[4]
-            
-            # Check Ronis teams
-            if teamName in (Roni.winner1.name, Roni.winner2.name, Roni.loser1.name, Roni.loser2.name):
-                teamWins = row[13]
-                teamLosses = row[14]
-                scorePlayer(Roni, teamName, teamWins, teamLosses)
-            
-            # Check Rasmus teams
-            elif teamName in (Rasmus.winner1.name, Rasmus.winner2.name, Rasmus.loser1.name, Rasmus.loser2.name):
-                teamWins = row[13]
-                teamLosses = row[14]
-                scorePlayer(Rasmus, teamName, teamWins, teamLosses)
-            # Check Tonys teams
-            elif teamName in (Tony.winner1.name, Tony.winner2.name, Tony.loser1.name, Tony.loser2.name):
-                teamWins = row[13]
-                teamLosses = row[14]
-                scorePlayer(Tony, teamName, teamWins, teamLosses)
+    
+    for index, row in dataFrame.iterrows():
+        teamName = row["TeamCity"] + " " + row["TeamName"]
 
-            # Check Sakaris teams
-            elif teamName in (Sakari.winner1.name, Sakari.winner2.name, Sakari.loser1.name, Sakari.loser2.name):
-                teamWins = row[13]
-                teamLosses = row[14]
-                scorePlayer(Sakari, teamName, teamWins, teamLosses)
-            
-            # Check Tomis teams
-            elif teamName in (Tomi.winner1.name, Tomi.winner2.name, Tomi.loser1.name, Tomi.loser2.name):
-                teamWins = row[13]
-                teamLosses = row[14]
-                scorePlayer(Tomi, teamName, teamWins, teamLosses)
+        # Check Ronis teams
+        if teamName in (Roni.winner1.name, Roni.winner2.name, Roni.loser1.name, Roni.loser2.name):
+            teamWins = int(row["WINS"])
+            teamLosses = int(row["LOSSES"])
+            scorePlayer(Roni, teamName, teamWins, teamLosses)
+        
+        # Check Rasmus teams
+        elif teamName in (Rasmus.winner1.name, Rasmus.winner2.name, Rasmus.loser1.name, Rasmus.loser2.name):
+            teamWins = int(row["WINS"])
+            teamLosses = int(row["LOSSES"])
+            scorePlayer(Rasmus, teamName, teamWins, teamLosses)
+        # Check Tonys teams
+        elif teamName in (Tony.winner1.name, Tony.winner2.name, Tony.loser1.name, Tony.loser2.name):
+            teamWins = int(row["WINS"])
+            teamLosses = int(row["LOSSES"])
+            scorePlayer(Tony, teamName, teamWins, teamLosses)
+
+        # Check Sakaris teams
+        elif teamName in (Sakari.winner1.name, Sakari.winner2.name, Sakari.loser1.name, Sakari.loser2.name):
+            teamWins = int(row["WINS"])
+            teamLosses = int(row["LOSSES"])
+            scorePlayer(Sakari, teamName, teamWins, teamLosses)
+        
+        # Check Tomis teams
+        elif teamName in (Tomi.winner1.name, Tomi.winner2.name, Tomi.loser1.name, Tomi.loser2.name):
+            teamWins = int(row["WINS"])
+            teamLosses = int(row["LOSSES"])
+            scorePlayer(Tomi, teamName, teamWins, teamLosses)
 
         leaderBoard:dict[str, int] = {Roni.name:Roni.totalPoints,
                             Rasmus.name:Rasmus.totalPoints,
@@ -475,58 +315,56 @@ def getBetLeaderboard():
                             Sakari.name:Sakari.totalPoints,
                             Tomi.name:Tomi.totalPoints}
         
-        sortedLeaderboard = sorted(leaderBoard.items(), key=lambda item: item[1], reverse=True)
-        position = 1
-        for name, points in sortedLeaderboard:
-            print(f"{position}. {name:<10} {points:>3} pts")
-            position += 1
-        
-        print("\n-------  Ronis teams  -------\n")
-        print("Winners")
-        print(f"{Roni.winner1.name:<25} {Roni.winner1.points:>3}")
-        print(f"{Roni.winner2.name:<25} {Roni.winner2.points:>3}")
-        print("\nLoosers")
-        print(f"{Roni.loser1.name:<25} {Roni.loser1.points:>3}")
-        print(f"{Roni.loser2.name:<25} {Roni.loser2.points:>3}")
-        print(f"\nTotal points {Roni.totalPoints:>16}")
+    sortedLeaderboard = sorted(leaderBoard.items(), key=lambda item: item[1], reverse=True)
+    position = 1
+    for name, points in sortedLeaderboard:
+        print(f"{position}. {name:<10} {points:>3} pts")
+        position += 1
+    
+    print("\n-------  Ronis teams  -------\n")
+    print("Winners")
+    print(f"{Roni.winner1.name:<25} {Roni.winner1.points:>3}")
+    print(f"{Roni.winner2.name:<25} {Roni.winner2.points:>3}")
+    print("\nLoosers")
+    print(f"{Roni.loser1.name:<25} {Roni.loser1.points:>3}")
+    print(f"{Roni.loser2.name:<25} {Roni.loser2.points:>3}")
+    print(f"\nTotal points {Roni.totalPoints:>16}")
 
-        print("\n-------  Rasmus teams  -------\n")
-        print("Winners")
-        print(f"{Rasmus.winner1.name:<25} {Rasmus.winner1.points:>3}")
-        print(f"{Rasmus.winner2.name:<25} {Rasmus.winner2.points:>3}")
-        print("\nLoosers")
-        print(f"{Rasmus.loser1.name:<25} {Rasmus.loser1.points:>3}")
-        print(f"{Rasmus.loser2.name:<25} {Rasmus.loser2.points:>3}")
-        print(f"\nTotal points {Rasmus.totalPoints:>16}")
+    print("\n-------  Rasmus teams  -------\n")
+    print("Winners")
+    print(f"{Rasmus.winner1.name:<25} {Rasmus.winner1.points:>3}")
+    print(f"{Rasmus.winner2.name:<25} {Rasmus.winner2.points:>3}")
+    print("\nLoosers")
+    print(f"{Rasmus.loser1.name:<25} {Rasmus.loser1.points:>3}")
+    print(f"{Rasmus.loser2.name:<25} {Rasmus.loser2.points:>3}")
+    print(f"\nTotal points {Rasmus.totalPoints:>16}")
 
-        print("\n-------  Tonys teams  -------\n")
-        print("Winners")
-        print(f"{Tony.winner1.name:<25} {Tony.winner1.points:>3}")
-        print(f"{Tony.winner2.name:<25} {Tony.winner2.points:>3}")
-        print("\nLoosers")
-        print(f"{Tony.loser1.name:<25} {Tony.loser1.points:>3}")
-        print(f"{Tony.loser2.name:<25} {Tony.loser2.points:>3}")
-        print(f"\nTotal points {Tony.totalPoints:>16}")
+    print("\n-------  Tonys teams  -------\n")
+    print("Winners")
+    print(f"{Tony.winner1.name:<25} {Tony.winner1.points:>3}")
+    print(f"{Tony.winner2.name:<25} {Tony.winner2.points:>3}")
+    print("\nLoosers")
+    print(f"{Tony.loser1.name:<25} {Tony.loser1.points:>3}")
+    print(f"{Tony.loser2.name:<25} {Tony.loser2.points:>3}")
+    print(f"\nTotal points {Tony.totalPoints:>16}")
 
-        print("\n-------  Sakaris teams  -------\n")
-        print("Winners")
-        print(f"{Sakari.winner1.name:<25} {Sakari.winner1.points:>3}")
-        print(f"{Sakari.winner2.name:<25} {Sakari.winner2.points:>3}")
-        print("\nLoosers")
-        print(f"{Sakari.loser1.name:<25} {Sakari.loser1.points:>3}")
-        print(f"{Sakari.loser2.name:<25} {Sakari.loser2.points:>3}")
-        print(f"\nTotal points {Sakari.totalPoints:>16}")
+    print("\n-------  Sakaris teams  -------\n")
+    print("Winners")
+    print(f"{Sakari.winner1.name:<25} {Sakari.winner1.points:>3}")
+    print(f"{Sakari.winner2.name:<25} {Sakari.winner2.points:>3}")
+    print("\nLoosers")
+    print(f"{Sakari.loser1.name:<25} {Sakari.loser1.points:>3}")
+    print(f"{Sakari.loser2.name:<25} {Sakari.loser2.points:>3}")
+    print(f"\nTotal points {Sakari.totalPoints:>16}")
 
-        print("\n-------  Tomis teams  -------\n")
-        print("Winners")
-        print(f"{Tomi.winner1.name:<25} {Tomi.winner1.points:>3}")
-        print(f"{Tomi.winner2.name:<25} {Tomi.winner2.points:>3}")
-        print("\nLoosers")
-        print(f"{Tomi.loser1.name:<25} {Tomi.loser1.points:>3}")
-        print(f"{Tomi.loser2.name:<25} {Tomi.loser2.points:>3}")
-        print(f"\nTotal points {Tomi.totalPoints:>16}")
-
-
+    print("\n-------  Tomis teams  -------\n")
+    print("Winners")
+    print(f"{Tomi.winner1.name:<25} {Tomi.winner1.points:>3}")
+    print(f"{Tomi.winner2.name:<25} {Tomi.winner2.points:>3}")
+    print("\nLoosers")
+    print(f"{Tomi.loser1.name:<25} {Tomi.loser1.points:>3}")
+    print(f"{Tomi.loser2.name:<25} {Tomi.loser2.points:>3}")
+    print(f"\nTotal points {Tomi.totalPoints:>16}")
 
 # Using the special variable
 # __name__
