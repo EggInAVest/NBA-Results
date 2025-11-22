@@ -97,8 +97,8 @@ def getDetailedStats():
             if boxResponse.status_code == 200:
                 gameCount += 1
                 boxData = boxResponse.json()
-                #with open(FILENAME2, "w", encoding="utf-8") as outfile:
-                    #json.dump(boxData, outfile, indent=4, sort_keys=True, ensure_ascii=False)
+                with open(FILENAME2, "w", encoding="utf-8") as outfile:
+                    json.dump(boxData, outfile, indent=4, sort_keys=True, ensure_ascii=False)
                 awayTeam = boxData["game"]["awayTeam"]
                 awayTeamCode = awayTeam["teamTricode"]
                 homeTeam = boxData["game"]["homeTeam"]
@@ -116,7 +116,8 @@ def getDetailedStats():
                     status = player.get("status", "")
                     played = player.get("played", "0")
                     if status == "ACTIVE" and played == "1":
-                        minutes = player["statistics"]["minutes"]
+                        minutes = player["statistics"]["minutesCalculated"]
+                        mins = "".join(c for c in minutes if c.isdigit())
                         points = player["statistics"]["points"]
                         rebounds = player["statistics"]["reboundsTotal"]
                         assists = player["statistics"]["assists"]
@@ -132,19 +133,20 @@ def getDetailedStats():
                         FGP = player["statistics"]["fieldGoalsPercentage"]
                         FGP = FGP * 100
                         FGP = round(FGP, 2)
-                        print(f"{name:<25} {minutes:>4} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
+                        print(f"{name:<25} {mins:>4} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
                     else:
                         reason = player.get("notPlayingReason", "DID NOT PLAY")
-                        print(f"{name:<25}   DNP {reason}")
+                        print(f"{name:<24}   DNP {reason}")
                 print()
                 print(f"HOME TEAM {homeTeamCode} {homeTeamScore} {homeStatus}\n")
-                print(f"{'NAME':<25} {'PTS':>4} {'MIN':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
+                print(f"{'NAME':<25} {'MIN':>4} {'PTS':>4} {'REB':>4} {'AST':>4} {'BLK':>4} {'STL':>4} {'TO':>4} {'FG':>8} {'3P':>8} {'FG%':>6}")
                 for player in homeTeam["players"]:
                     name = player["name"]
                     status = player.get("status", "")
                     played = player.get("played", "0")
                     if status == "ACTIVE" and played == "1":
-                        minutes = player["statistics"]["minutes"]
+                        minutes = player["statistics"]["minutesCalculated"]
+                        mins = "".join(c for c in minutes if c.isdigit())  
                         points = player["statistics"]["points"]
                         rebounds = player["statistics"]["reboundsTotal"]
                         assists = player["statistics"]["assists"]
@@ -160,10 +162,10 @@ def getDetailedStats():
                         FGP = player["statistics"]["fieldGoalsPercentage"]
                         FGP = FGP * 100
                         FGP = round(FGP, 2)
-                        print(f"{name:<25} {minutes:>4} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
+                        print(f"{name:<25} {mins:>4} {points:>4} {rebounds:>4} {assists:>4} {blocks:>4} {steals:>4} {turnovers:>4} {FG:>8} {threes:>8} {FGP:>6}")
                     else:
                         reason = player.get("notPlayingReason", "DID NOT PLAY")
-                        print(f"{name:<25}   DNP {reason}")
+                        print(f"{name:<24}   DNP {reason}")
                 print(80 * "-")   
         if gameCount == 0:
             print("No games started yet")
@@ -314,12 +316,6 @@ def getBetLeaderboard():
                             Tony.name:Tony.totalPoints,
                             Sakari.name:Sakari.totalPoints,
                             Tomi.name:Tomi.totalPoints}
-        
-    sortedLeaderboard = sorted(leaderBoard.items(), key=lambda item: item[1], reverse=True)
-    position = 1
-    for name, points in sortedLeaderboard:
-        print(f"{position}. {name:<10} {points:>3} pts")
-        position += 1
     
     print("\n-------  Ronis teams  -------\n")
     print("Winners")
@@ -365,6 +361,21 @@ def getBetLeaderboard():
     print(f"{Tomi.loser1.name:<25} {Tomi.loser1.points:>3}")
     print(f"{Tomi.loser2.name:<25} {Tomi.loser2.points:>3}")
     print(f"\nTotal points {Tomi.totalPoints:>16}")
+
+
+    sortedLeaderboard = sorted(leaderBoard.items(), key=lambda item: item[1], reverse=True)
+    position = 1
+    prizeMoney = 0
+
+    print("\n======     LEADERBOARD     ======\n")
+    for name, points in sortedLeaderboard:
+        print(f"{position}. {name:<10} {points:>3} pts")
+        if position == 1:
+            leaderPoints = points
+        else:
+            prizeMoney = prizeMoney + (leaderPoints - points)
+        position += 1
+    print(f"\nProjected winnings for leader: {prizeMoney}€\n")
 
 # Using the special variable
 # __name__
