@@ -4,6 +4,7 @@ import json
 import http.client
 from nba_api.stats.endpoints import leaguestandings
 from nba_api.stats.static import teams
+from nba_api.stats.endpoints import leagueleaders
 
 
 class bcolors:
@@ -38,8 +39,8 @@ def main():
         getDetailedStats()
     elif (int(num) == 3):
         getStandings()
-    #elif (int(num) == 4):
-        #getLeaders()
+    elif (int(num) == 4):
+        getLeaders()
     elif (int(num) == 5):
         getBetLeaderboard()
     elif (int(num) == 6):
@@ -210,6 +211,100 @@ def getStandings():
     for team in eastTeams:
         print(f"{team.name:<24} {team.wins:>4} - {team.losses}")
 
+def getLeaders():
+    print(f"\n===========    {bcolors.BOLD}LEAGUE LEADERS{bcolors.ENDC}     ===========\n")
+    pts = leagueleaders.LeagueLeaders(
+        league_id="00",
+        per_mode48="PerGame",
+        scope="RS",
+        season="2025-26",
+        season_type_all_star="Regular Season",
+        stat_category_abbreviation="PTS"
+    )
+    dataPoints = pts.get_data_frames()[0]
+    print("\n-------  Points per game  -------\n")
+    for index, row in dataPoints.iterrows():
+        rank = row["RANK"]
+        if int(rank) > 5:
+            break
+        player = row["PLAYER"]
+        stat = row["PTS"]
+        print(f"{rank:<2} {player:<24} {stat:>4}")
+    
+
+    reb = leagueleaders.LeagueLeaders(
+        league_id="00",
+        per_mode48="PerGame",
+        scope="RS",
+        season="2025-26",
+        season_type_all_star="Regular Season",
+        stat_category_abbreviation="REB"
+    )
+    dataRebounds = reb.get_data_frames()[0]
+    print("\n-------  Rebounds per game  -------\n")
+    for index, row in dataRebounds.iterrows():
+        rank = row["RANK"]
+        if int(rank) > 5:
+            break
+        player = row["PLAYER"]
+        stat = row["REB"]
+        print(f"{rank:<2} {player:<24} {stat:>4}")
+
+
+    ast = leagueleaders.LeagueLeaders(
+        league_id="00",
+        per_mode48="PerGame",
+        scope="RS",
+        season="2025-26",
+        season_type_all_star="Regular Season",
+        stat_category_abbreviation="AST"
+    )
+    dataAssists = ast.get_data_frames()[0]
+    print("\n-------  Assists per game  -------\n")
+    for index, row in dataAssists.iterrows():
+        rank = row["RANK"]
+        if int(rank) > 5:
+            break
+        player = row["PLAYER"]
+        stat = row["AST"]
+        print(f"{rank:<2} {player:<24} {stat:>4}")
+
+
+    blk = leagueleaders.LeagueLeaders(
+        league_id="00",
+        per_mode48="PerGame",
+        scope="RS",
+        season="2025-26",
+        season_type_all_star="Regular Season",
+        stat_category_abbreviation="BLK"
+    )
+    dataBlocks = blk.get_data_frames()[0]
+    print("\n-------  Blocks per game  -------\n")
+    for index, row in dataBlocks.iterrows():
+        rank = row["RANK"]
+        if int(rank) > 5:
+            break
+        player = row["PLAYER"]
+        stat = row["BLK"]
+        print(f"{rank:<2} {player:<24} {stat:>4}")
+
+    stl = leagueleaders.LeagueLeaders(
+        league_id="00",
+        per_mode48="PerGame",
+        scope="RS",
+        season="2025-26",
+        season_type_all_star="Regular Season",
+        stat_category_abbreviation="STL"
+    )
+    dataSteals = stl.get_data_frames()[0]
+    print("\n-------  Steals per game  -------\n")
+    for index, row in dataSteals.iterrows():
+        rank = row["RANK"]
+        if int(rank) > 5:
+            break
+        player = row["PLAYER"]
+        stat = row["STL"]
+        print(f"{rank:<2} {player:<24} {stat:>4}")
 
 def getBetLeaderboard():
     print(f"\n===========    {bcolors.BOLD}BET LEADERBOARD{bcolors.ENDC}     ===========\n")
@@ -372,10 +467,11 @@ def getBetLeaderboard():
         print(f"{position}. {name:<10} {points:>3} pts")
         if position == 1:
             leaderPoints = points
+            leaderName = name
         else:
             prizeMoney = prizeMoney + (leaderPoints - points)
         position += 1
-    print(f"\nProjected winnings for leader: {prizeMoney}€\n")
+    print(f"\nCurrent winnings for {leaderName}: {prizeMoney}€\n")
 
 # Using the special variable
 # __name__
