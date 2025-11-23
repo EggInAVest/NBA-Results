@@ -97,8 +97,8 @@ def getDetailedStats():
             if boxResponse.status_code == 200:
                 gameCount += 1
                 boxData = boxResponse.json()
-                with open(FILENAME2, "w", encoding="utf-8") as outfile:
-                    json.dump(boxData, outfile, indent=4, sort_keys=True, ensure_ascii=False)
+                #with open(FILENAME2, "w", encoding="utf-8") as outfile:
+                    #json.dump(boxData, outfile, indent=4, sort_keys=True, ensure_ascii=False)
                 awayTeam = boxData["game"]["awayTeam"]
                 awayTeamCode = awayTeam["teamTricode"]
                 homeTeam = boxData["game"]["homeTeam"]
@@ -344,46 +344,46 @@ def getBetLeaderboard():
                             Tomi.name:Tomi.totalPoints}
     
     print("\n-------  Ronis teams  -------\n")
-    print("Winners")
+    print(f"{bcolors.UNDERLINE}Winners{bcolors.ENDC}")
     print(f"{Roni.winner1.name:<25} {Roni.winner1.points:>3}")
     print(f"{Roni.winner2.name:<25} {Roni.winner2.points:>3}")
-    print("\nLoosers")
+    print(f"\n{bcolors.UNDERLINE}Losers{bcolors.ENDC}")
     print(f"{Roni.loser1.name:<25} {Roni.loser1.points:>3}")
     print(f"{Roni.loser2.name:<25} {Roni.loser2.points:>3}")
     print(f"\nTotal points {Roni.totalPoints:>16}")
 
     print("\n-------  Rasmus teams  -------\n")
-    print("Winners")
+    print(f"{bcolors.UNDERLINE}Winners{bcolors.ENDC}")
     print(f"{Rasmus.winner1.name:<25} {Rasmus.winner1.points:>3}")
     print(f"{Rasmus.winner2.name:<25} {Rasmus.winner2.points:>3}")
-    print("\nLoosers")
+    print(f"\n{bcolors.UNDERLINE}Losers{bcolors.ENDC}")
     print(f"{Rasmus.loser1.name:<25} {Rasmus.loser1.points:>3}")
     print(f"{Rasmus.loser2.name:<25} {Rasmus.loser2.points:>3}")
     print(f"\nTotal points {Rasmus.totalPoints:>16}")
 
     print("\n-------  Tonys teams  -------\n")
-    print("Winners")
+    print(f"{bcolors.UNDERLINE}Winners{bcolors.ENDC}")
     print(f"{Tony.winner1.name:<25} {Tony.winner1.points:>3}")
     print(f"{Tony.winner2.name:<25} {Tony.winner2.points:>3}")
-    print("\nLoosers")
+    print(f"\n{bcolors.UNDERLINE}Losers{bcolors.ENDC}")
     print(f"{Tony.loser1.name:<25} {Tony.loser1.points:>3}")
     print(f"{Tony.loser2.name:<25} {Tony.loser2.points:>3}")
     print(f"\nTotal points {Tony.totalPoints:>16}")
 
     print("\n-------  Sakaris teams  -------\n")
-    print("Winners")
+    print(f"{bcolors.UNDERLINE}Winners{bcolors.ENDC}")
     print(f"{Sakari.winner1.name:<25} {Sakari.winner1.points:>3}")
     print(f"{Sakari.winner2.name:<25} {Sakari.winner2.points:>3}")
-    print("\nLoosers")
+    print(f"\n{bcolors.UNDERLINE}Losers{bcolors.ENDC}")
     print(f"{Sakari.loser1.name:<25} {Sakari.loser1.points:>3}")
     print(f"{Sakari.loser2.name:<25} {Sakari.loser2.points:>3}")
     print(f"\nTotal points {Sakari.totalPoints:>16}")
 
     print("\n-------  Tomis teams  -------\n")
-    print("Winners")
+    print(f"{bcolors.UNDERLINE}Winners{bcolors.ENDC}")
     print(f"{Tomi.winner1.name:<25} {Tomi.winner1.points:>3}")
     print(f"{Tomi.winner2.name:<25} {Tomi.winner2.points:>3}")
-    print("\nLoosers")
+    print(f"\n{bcolors.UNDERLINE}Losers{bcolors.ENDC}")
     print(f"{Tomi.loser1.name:<25} {Tomi.loser1.points:>3}")
     print(f"{Tomi.loser2.name:<25} {Tomi.loser2.points:>3}")
     print(f"\nTotal points {Tomi.totalPoints:>16}")
