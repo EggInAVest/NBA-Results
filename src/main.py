@@ -55,7 +55,6 @@ def getGameStats():
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        # If I want the actual JSON file to check through
         #with open(FILENAME, "w", encoding="utf-8") as outfile:
             #json.dump(data, outfile, indent=4, sort_keys=True, ensure_ascii=False)
         games = data["scoreboard"]["games"]
@@ -213,98 +212,30 @@ def getStandings():
 
 def getLeaders():
     print(f"\n===========    {bcolors.BOLD}LEAGUE LEADERS{bcolors.ENDC}     ===========\n")
-    pts = leagueleaders.LeagueLeaders(
-        league_id="00",
-        per_mode48="PerGame",
-        scope="RS",
-        season="2025-26",
-        season_type_all_star="Regular Season",
-        stat_category_abbreviation="PTS"
-    )
-    dataPoints = pts.get_data_frames()[0]
-    print("\n-------  Points per game  -------\n")
-    for index, row in dataPoints.iterrows():
-        rank = row["RANK"]
-        if int(rank) > 5:
-            break
-        player = row["PLAYER"]
-        stat = row["PTS"]
-        print(f"{rank:<2} {player:<24} {stat:>4}")
     
-
-    reb = leagueleaders.LeagueLeaders(
+    statCategories = [
+        ("PTS", "Points per game"),
+        ("REB", "Rebounds per game"),
+        ("AST", "Assists per game"),
+        ("BLK", "Blocks per game"),
+        ("STL", "Steals per game")
+    ]
+    
+    for statShort, statName in statCategories:
+        leaders = leagueleaders.LeagueLeaders(
         league_id="00",
         per_mode48="PerGame",
         scope="RS",
         season="2025-26",
         season_type_all_star="Regular Season",
-        stat_category_abbreviation="REB"
-    )
-    dataRebounds = reb.get_data_frames()[0]
-    print("\n-------  Rebounds per game  -------\n")
-    for index, row in dataRebounds.iterrows():
-        rank = row["RANK"]
-        if int(rank) > 5:
-            break
-        player = row["PLAYER"]
-        stat = row["REB"]
-        print(f"{rank:<2} {player:<24} {stat:>4}")
+        stat_category_abbreviation=statShort
+        )
 
+        data = leaders.get_data_frames()[0].head(5)
+        print(f"\n-------  {statName}  -------\n")
+        for _, row in data.iterrows():
+            print(f"{row['RANK']:<2} {row['PLAYER']:<24} {row[statShort]:>4}")
 
-    ast = leagueleaders.LeagueLeaders(
-        league_id="00",
-        per_mode48="PerGame",
-        scope="RS",
-        season="2025-26",
-        season_type_all_star="Regular Season",
-        stat_category_abbreviation="AST"
-    )
-    dataAssists = ast.get_data_frames()[0]
-    print("\n-------  Assists per game  -------\n")
-    for index, row in dataAssists.iterrows():
-        rank = row["RANK"]
-        if int(rank) > 5:
-            break
-        player = row["PLAYER"]
-        stat = row["AST"]
-        print(f"{rank:<2} {player:<24} {stat:>4}")
-
-
-    blk = leagueleaders.LeagueLeaders(
-        league_id="00",
-        per_mode48="PerGame",
-        scope="RS",
-        season="2025-26",
-        season_type_all_star="Regular Season",
-        stat_category_abbreviation="BLK"
-    )
-    dataBlocks = blk.get_data_frames()[0]
-    print("\n-------  Blocks per game  -------\n")
-    for index, row in dataBlocks.iterrows():
-        rank = row["RANK"]
-        if int(rank) > 5:
-            break
-        player = row["PLAYER"]
-        stat = row["BLK"]
-        print(f"{rank:<2} {player:<24} {stat:>4}")
-
-    stl = leagueleaders.LeagueLeaders(
-        league_id="00",
-        per_mode48="PerGame",
-        scope="RS",
-        season="2025-26",
-        season_type_all_star="Regular Season",
-        stat_category_abbreviation="STL"
-    )
-    dataSteals = stl.get_data_frames()[0]
-    print("\n-------  Steals per game  -------\n")
-    for index, row in dataSteals.iterrows():
-        rank = row["RANK"]
-        if int(rank) > 5:
-            break
-        player = row["PLAYER"]
-        stat = row["STL"]
-        print(f"{rank:<2} {player:<24} {stat:>4}")
 
 def getBetLeaderboard():
     print(f"\n===========    {bcolors.BOLD}BET LEADERBOARD{bcolors.ENDC}     ===========\n")
