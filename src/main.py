@@ -241,9 +241,10 @@ def getBetLeaderboard():
     print(f"\n===========    {bcolors.BOLD}BET LEADERBOARD{bcolors.ENDC}     ===========\n")
 
     class Team:
-        def __init__(self, name: str = "", points: int = 0):
+        def __init__(self, name: str = "", points: int = 0, gamesPlayed: int = 0):
             self.name = name
             self.points = points
+            self.gamesPlayed = gamesPlayed
 
     class Player:
         def __init__(self, name: str, winner1: Team, winner2: Team, loser1: Team, loser2: Team):
@@ -257,12 +258,16 @@ def getBetLeaderboard():
     def scorePlayer(player: Player, teamName: str, wins: int, losses: int):
         if teamName == player.winner1.name:
             player.winner1.points = wins
+            player.winner1.gamesPlayed = wins + losses
         elif teamName == player.winner2.name:
             player.winner2.points = wins
+            player.winner2.gamesPlayed = wins + losses
         elif teamName == player.loser1.name:
             player.loser1.points = losses
+            player.loser1.gamesPlayed = wins + losses
         elif teamName == player.loser2.name:
             player.loser2.points = losses
+            player.loser2.gamesPlayed = wins + losses
 
         player.totalPoints = player.winner1.points + player.winner2.points + player.loser1.points + player.loser2.points
 
@@ -275,34 +280,34 @@ def getBetLeaderboard():
     dataFrame = standings.get_data_frames()[0]
 
     Roni = Player("Roni",
-                      Team("Oklahoma City Thunder", 0),
-                      Team("New York Knicks", 0),
-                      Team("New Orleans Pelicans", 0),
-                      Team("Philadelphia 76ers", 0),
+                      Team("Oklahoma City Thunder", 0, 0),
+                      Team("New York Knicks", 0, 0),
+                      Team("New Orleans Pelicans", 0, 0),
+                      Team("Philadelphia 76ers", 0, 0),
                       )
     Rasmus = Player("Rasmus",
-                      Team("Cleveland Cavaliers", 0),
-                      Team("Minnesota Timberwolves", 0),
-                      Team("Charlotte Hornets", 0),
-                      Team("Phoenix Suns", 0),
+                      Team("Cleveland Cavaliers", 0, 0),
+                      Team("Minnesota Timberwolves", 0, 0),
+                      Team("Charlotte Hornets", 0, 0),
+                      Team("Phoenix Suns", 0, 0),
                       )
     Tony = Player("Tony",
-                      Team("Dallas Mavericks", 0),
-                      Team("Milwaukee Bucks", 0),
-                      Team("Toronto Raptors", 0),
-                      Team("Washington Wizards", 0),
+                      Team("Dallas Mavericks", 0, 0),
+                      Team("Milwaukee Bucks", 0, 0),
+                      Team("Toronto Raptors", 0, 0),
+                      Team("Washington Wizards", 0, 0),
                       )
     Sakari = Player("Sakari",
-                      Team("Houston Rockets", 0),
-                      Team("Orlando Magic", 0),
-                      Team("Utah Jazz", 0),
-                      Team("Chicago Bulls", 0),
+                      Team("Houston Rockets", 0, 0),
+                      Team("Orlando Magic", 0, 0),
+                      Team("Utah Jazz", 0, 0),
+                      Team("Chicago Bulls", 0, 0),
                       )
     Tomi = Player("Tomi",
-                      Team("Denver Nuggets", 0),
-                      Team("Los Angeles Lakers", 0),
-                      Team("Brooklyn Nets", 0),
-                      Team("Boston Celtics", 0),
+                      Team("Denver Nuggets", 0, 0),
+                      Team("Los Angeles Lakers", 0, 0),
+                      Team("Brooklyn Nets", 0, 0),
+                      Team("Boston Celtics", 0, 0),
                       )
     
     for index, row in dataFrame.iterrows():
@@ -336,58 +341,58 @@ def getBetLeaderboard():
             teamWins = int(row["WINS"])
             teamLosses = int(row["LOSSES"])
             scorePlayer(Tomi, teamName, teamWins, teamLosses)
-
-        leaderBoard:dict[str, int] = {Roni.name:Roni.totalPoints,
-                            Rasmus.name:Rasmus.totalPoints,
-                            Tony.name:Tony.totalPoints,
-                            Sakari.name:Sakari.totalPoints,
-                            Tomi.name:Tomi.totalPoints}
     
     print("\n-------  Ronis teams  -------\n")
     print(f"{bcolors.UNDERLINE}Winners{bcolors.ENDC}")
-    print(f"{Roni.winner1.name:<25} {Roni.winner1.points:>3}")
-    print(f"{Roni.winner2.name:<25} {Roni.winner2.points:>3}")
+    print(f"{Roni.winner1.name:<25} {Roni.winner1.points:>3} ({Roni.winner1.gamesPlayed})")
+    print(f"{Roni.winner2.name:<25} {Roni.winner2.points:>3} ({Roni.winner2.gamesPlayed})")
     print(f"\n{bcolors.UNDERLINE}Losers{bcolors.ENDC}")
-    print(f"{Roni.loser1.name:<25} {Roni.loser1.points:>3}")
-    print(f"{Roni.loser2.name:<25} {Roni.loser2.points:>3}")
+    print(f"{Roni.loser1.name:<25} {Roni.loser1.points:>3} ({Roni.loser1.gamesPlayed})")
+    print(f"{Roni.loser2.name:<25} {Roni.loser2.points:>3} ({Roni.loser2.gamesPlayed})")
     print(f"\nTotal points {Roni.totalPoints:>16}")
 
     print("\n-------  Rasmus teams  -------\n")
     print(f"{bcolors.UNDERLINE}Winners{bcolors.ENDC}")
-    print(f"{Rasmus.winner1.name:<25} {Rasmus.winner1.points:>3}")
-    print(f"{Rasmus.winner2.name:<25} {Rasmus.winner2.points:>3}")
+    print(f"{Rasmus.winner1.name:<25} {Rasmus.winner1.points:>3} ({Rasmus.winner1.gamesPlayed})")
+    print(f"{Rasmus.winner2.name:<25} {Rasmus.winner2.points:>3} ({Rasmus.winner2.gamesPlayed})")
     print(f"\n{bcolors.UNDERLINE}Losers{bcolors.ENDC}")
-    print(f"{Rasmus.loser1.name:<25} {Rasmus.loser1.points:>3}")
-    print(f"{Rasmus.loser2.name:<25} {Rasmus.loser2.points:>3}")
+    print(f"{Rasmus.loser1.name:<25} {Rasmus.loser1.points:>3} ({Rasmus.loser1.gamesPlayed})")
+    print(f"{Rasmus.loser2.name:<25} {Rasmus.loser2.points:>3} ({Rasmus.loser2.gamesPlayed})")
     print(f"\nTotal points {Rasmus.totalPoints:>16}")
 
     print("\n-------  Tonys teams  -------\n")
     print(f"{bcolors.UNDERLINE}Winners{bcolors.ENDC}")
-    print(f"{Tony.winner1.name:<25} {Tony.winner1.points:>3}")
-    print(f"{Tony.winner2.name:<25} {Tony.winner2.points:>3}")
+    print(f"{Tony.winner1.name:<25} {Tony.winner1.points:>3} ({Tony.winner1.gamesPlayed})")
+    print(f"{Tony.winner2.name:<25} {Tony.winner2.points:>3} ({Tony.winner2.gamesPlayed})")
     print(f"\n{bcolors.UNDERLINE}Losers{bcolors.ENDC}")
-    print(f"{Tony.loser1.name:<25} {Tony.loser1.points:>3}")
-    print(f"{Tony.loser2.name:<25} {Tony.loser2.points:>3}")
+    print(f"{Tony.loser1.name:<25} {Tony.loser1.points:>3} ({Tony.loser1.gamesPlayed})")
+    print(f"{Tony.loser2.name:<25} {Tony.loser2.points:>3} ({Tony.loser2.gamesPlayed})")
     print(f"\nTotal points {Tony.totalPoints:>16}")
 
     print("\n-------  Sakaris teams  -------\n")
     print(f"{bcolors.UNDERLINE}Winners{bcolors.ENDC}")
-    print(f"{Sakari.winner1.name:<25} {Sakari.winner1.points:>3}")
-    print(f"{Sakari.winner2.name:<25} {Sakari.winner2.points:>3}")
+    print(f"{Sakari.winner1.name:<25} {Sakari.winner1.points:>3} ({Sakari.winner1.gamesPlayed})")
+    print(f"{Sakari.winner2.name:<25} {Sakari.winner2.points:>3} ({Sakari.winner2.gamesPlayed})")
     print(f"\n{bcolors.UNDERLINE}Losers{bcolors.ENDC}")
-    print(f"{Sakari.loser1.name:<25} {Sakari.loser1.points:>3}")
-    print(f"{Sakari.loser2.name:<25} {Sakari.loser2.points:>3}")
+    print(f"{Sakari.loser1.name:<25} {Sakari.loser1.points:>3} ({Sakari.loser1.gamesPlayed})")
+    print(f"{Sakari.loser2.name:<25} {Sakari.loser2.points:>3} ({Sakari.loser2.gamesPlayed})")
     print(f"\nTotal points {Sakari.totalPoints:>16}")
 
     print("\n-------  Tomis teams  -------\n")
     print(f"{bcolors.UNDERLINE}Winners{bcolors.ENDC}")
-    print(f"{Tomi.winner1.name:<25} {Tomi.winner1.points:>3}")
-    print(f"{Tomi.winner2.name:<25} {Tomi.winner2.points:>3}")
+    print(f"{Tomi.winner1.name:<25} {Tomi.winner1.points:>3} ({Tomi.winner1.gamesPlayed})")
+    print(f"{Tomi.winner2.name:<25} {Tomi.winner2.points:>3} ({Tomi.winner2.gamesPlayed})")
     print(f"\n{bcolors.UNDERLINE}Losers{bcolors.ENDC}")
-    print(f"{Tomi.loser1.name:<25} {Tomi.loser1.points:>3}")
-    print(f"{Tomi.loser2.name:<25} {Tomi.loser2.points:>3}")
+    print(f"{Tomi.loser1.name:<25} {Tomi.loser1.points:>3} ({Tomi.loser1.gamesPlayed})")
+    print(f"{Tomi.loser2.name:<25} {Tomi.loser2.points:>3} ({Tomi.loser2.gamesPlayed})")
     print(f"\nTotal points {Tomi.totalPoints:>16}")
 
+
+    leaderBoard:dict[str, int] = {Roni.name:Roni.totalPoints,
+                        Rasmus.name:Rasmus.totalPoints,
+                        Tony.name:Tony.totalPoints,
+                        Sakari.name:Sakari.totalPoints,
+                        Tomi.name:Tomi.totalPoints}
 
     sortedLeaderboard = sorted(leaderBoard.items(), key=lambda item: item[1], reverse=True)
     position = 1
