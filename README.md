@@ -75,40 +75,6 @@ When you're done using the app, deactivate the virtual environment:
 deactivate
 ```
 
-## Dependencies Explained
-
-Here's what each package in `requirements.txt` does:
-
-- **certifi** (2025.11.12): Provides SSL certificates for secure HTTPS connections
-- **charset-normalizer** (3.4.4): Detects and normalizes character encodings when reading web data
-- **idna** (3.11): Handles internationalized domain names (non-ASCII URLs)
-- **nba_api** (1.11.3): The core library that provides access to NBA statistics and data
-- **numpy** (2.3.5): Numerical computing library used by pandas for data manipulation
-- **pandas** (2.3.3): Data analysis library used to handle NBA statistics in table format
-- **python-dateutil** (2.9.0.post0): Provides powerful extensions for working with dates and times
-- **pytz** (2025.2): World timezone definitions for Python
-- **requests** (2.32.5): Makes HTTP requests to fetch NBA data from web APIs
-- **six** (1.17.0): Python 2 and 3 compatibility library (dependency of other packages)
-- **tzdata** (2025.2): Timezone database for accurate time handling
-- **urllib3** (2.5.0): HTTP library that powers the requests package
-
-## Troubleshooting
-
-**Issue**: `ModuleNotFoundError: No module named 'nba_api'`  
-**Solution**: Make sure your virtual environment is activated and you've run `pip install -r requirements.txt`
-
-**Issue**: No games showing in "Last night's results"  
-**Solution**: The app fetches games from "today's scoreboard". If no games have been played yet today, try running it after games have started or finished.
-
-**Issue**: API errors or timeouts  
-**Solution**: The app relies on external NBA APIs. Check your internet connection and try again in a few moments.
-
-## Notes
-
-- The betting leaderboard feature tracks specific teams for specific players (Roni, Rasmus, Tony, Sakari, and Tomi). You can modify these in the `getBetLeaderboard()` function to track your own teams.
-- Color coding in the terminal uses ANSI escape codes and works best on modern terminal emulators.
-- Data is fetched in real-time from NBA's official APIs, so an internet connection is required.
-
 ## License
 
 This is a personal project. Feel free to modify and use it for your own purposes.
